@@ -9,6 +9,7 @@ import 'package:yu_bilibili/page/home_tab_page.dart';
 import 'package:yu_bilibili/util/color.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/util/view_util.dart';
+import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/loading_container.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
 
@@ -108,24 +109,20 @@ class _HomePageState extends HiState<HomePage>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
+  ///自定义顶部tab
   _tabBar() {
-    return TabBar(
-        controller: _controller,
-        isScrollable: true,
-        labelColor: Colors.black,
-        indicatorColor: primaryColor,
-        indicatorPadding: EdgeInsets.only(left: 10, right: 10),
-        indicatorWeight: 3,
-        tabs: categoryList.map<Tab>((tab) {
-          return Tab(
-              child: Padding(
-            padding: EdgeInsets.only(left: 5, right: 5),
-            child: Text(
-              tab.name,
-              style: TextStyle(fontSize: 16),
-            ),
-          ));
-        }).toList());
+    return HiTab(
+      categoryList.map<Tab>((tab) {
+        return Tab(
+          text: tab.name,
+        );
+      }).toList(),
+      controller: _controller,
+      fontSize: 16,
+      borderWidth: 3,
+      unselectedLabelColor: Colors.black54,
+      insets: 13,
+    );
   }
 
   void loadData() async {
