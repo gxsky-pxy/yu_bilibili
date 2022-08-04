@@ -7,6 +7,7 @@ import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/appbar.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
+import 'package:yu_bilibili/widget/video_header.dart';
 import 'package:yu_bilibili/widget/video_view.dart';
 
 class VideoDetailPage extends StatefulWidget {
@@ -50,7 +51,17 @@ class _VideoDetailPageState extends State<VideoDetailPage>
                 height: Platform.isAndroid ? 0 : 46,
               ),
               _buildVideoView(),
-              _buildTabNavigation()
+              _buildTabNavigation(),
+              Flexible(
+                  child: TabBarView(
+                controller: _controller,
+                children: [
+                  _buildDetailList(),
+                  Container(
+                    child: Text('敬请期待...'),
+                  )
+                ],
+              ))
             ],
           ),
         ));
@@ -100,5 +111,22 @@ class _VideoDetailPageState extends State<VideoDetailPage>
       }).toList(),
       controller: _controller,
     );
+  }
+
+  _buildDetailList() {
+    return ListView(
+      padding: EdgeInsets.all(0),
+      children: [
+        ...buildContents()
+      ],
+    );
+  }
+
+  buildContents() {
+    return [
+      Container(
+        child: VideoHeader(owner: widget.videoModel.owner,),
+      )
+    ];
   }
 }

@@ -75,7 +75,10 @@ class _HomePageState extends HiState<HomePage>
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
+        // value: SystemUiOverlayStyle.dark,
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
         child: LoadingContainer(
           isLoading: _isLoading,
           child: Column(
