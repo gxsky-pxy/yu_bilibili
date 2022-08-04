@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:yu_bilibili/core/hi_state.dart';
 import 'package:yu_bilibili/http/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/home_dao.dart';
@@ -20,15 +21,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends HiState<HomePage>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin ,WidgetsBindingObserver{
   var listener;
   late TabController _controller;
   List<CategoryMo> categoryList = [];
   List<BannerMo> bannerList = [];
   bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);//监听应用是否隐藏到了后台
     _controller = TabController(length: categoryList.length, vsync: this);
     HiNavigator.getInstance().addListener(this.listener = (current, pre) {
       print('home:current：${current.page}');
@@ -45,46 +48,59 @@ class _HomePageState extends HiState<HomePage>
   @override
   void dispose() {
     HiNavigator.getInstance().removeListener(this.listener);
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
 
+  //监听应用生命周期变化
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    print('didChangeAppLifecycleState:$state');
+    switch (state) {
+      case AppLifecycleState.inactive: // 处于这种状态的应用程序应该假设它们可能在任何时候暂停。
+        break;
+      case AppLifecycleState.resumed: //从后台切换前台，界面可见
+        break;
+      case AppLifecycleState.paused: // 界面不可见，后台
+        break;
+      case AppLifecycleState.detached: // APP结束时调用
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:LoadingContainer(
-        isLoading: _isLoading,
-        child: Column(
-          children: [
-            NavigationBarPlus(
-              child: _appBar(),
-              height: 50,
-              color: Colors.white,
-              statusStyle: StatusStyle.DARK_CONTENT,
-            ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.only(top: 30),
-              child: _tabBar(),
-            ),
-            Flexible(
-                child: TabBarView(
-                    controller: _controller,
-                    children: categoryList.map((tab) {
-                      return HomeTabPage(
-                          categoryName: tab.name,
-                          bannerList: tab.name == '推荐' ? bannerList : null);
-                    }).toList()))
-            // MaterialButton(
-            //   onPressed: () => {
-            //     HiNavigator.getInstance().onJumpTo(RouteStatus.detail,
-            //         args: {'videoMo': VideoModel(100)})
-            //   },
-            //   child: Text('详情'),
-            // )
-          ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: LoadingContainer(
+          isLoading: _isLoading,
+          child: Column(
+            children: [
+              NavigationBarPlus(
+                child: _appBar(),
+                height: 50,
+                color: Colors.white,
+                statusStyle: StatusStyle.DARK_CONTENT,
+              ),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.only(top: 30),
+                child: _tabBar(),
+              ),
+              Flexible(
+                  child: TabBarView(
+                      controller: _controller,
+                      children: categoryList.map((tab) {
+                        return HomeTabPage(
+                            categoryName: tab.name,
+                            bannerList: tab.name == '推荐' ? bannerList : null);
+                      }).toList()))
+            ],
+          ),
         ),
-      ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/appbar.dart';
@@ -21,29 +22,26 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //黑色状态栏 仅安卓
-    changeStatusBar(color: Colors.black,statusStyle: StatusStyle.DARK_CONTENT);
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  MediaQuery.removePadding(
-          removeTop: Platform.isIOS,
-          context: context,
-          child: Column(
-            children: [
-              //iOS 黑色状态栏
-              NavigationBarPlus(
-                color: Colors.black,
-                statusStyle: StatusStyle.LIGHT_CONTENT,
-                height: Platform.isAndroid ? 0 : 46,
-              ),
-              _videoView(),
-              Text('视频详情页，vid:${widget.videoModel.vid}'),
-              Text('视频详情页，title:${widget.videoModel.title}')
-            ],
-          )),
-    );
+    return  AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: Scaffold(
+          body: Column(
+                children: [
+                  //虚拟导航栏 为了占位置
+                  NavigationBarPlus(
+                    color: Colors.black,
+                    statusStyle: StatusStyle.LIGHT_CONTENT,
+                    height: Platform.isAndroid ? 0 : 46,
+                  ),
+                  _videoView(),
+                  Text('视频详情页，vid:${widget.videoModel.vid}'),
+                  Text('视频详情页，title:${widget.videoModel.title}')
+                ],
+          ),
+        ));
   }
   _videoView() {
     var model = widget.videoModel;

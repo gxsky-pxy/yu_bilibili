@@ -17,7 +17,7 @@ class NavigationBarPlus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _statusBarInit();
+    // _statusBarInit();
     //状态栏高度
     var top = MediaQuery.of(context).padding.top;
     return Container(
@@ -30,7 +30,7 @@ class NavigationBarPlus extends StatelessWidget {
   }
 
   void _statusBarInit() {
-    //沉浸式状态栏
-    changeStatusBar(color: color, statusStyle: statusStyle);
+    //沉浸式状态栏 采用
+    changeStatusBar(statusStyle: statusStyle);
   }
 }
