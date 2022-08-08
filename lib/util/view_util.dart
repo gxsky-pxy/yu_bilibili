@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
+import 'package:yu_bilibili/util/format_util.dart';
 
 enum StatusStyle { LIGHT_CONTENT, DARK_CONTENT }
 
@@ -60,4 +61,48 @@ void changeStatusBar(
     statusBarBrightness: brightness, //该属性仅用于 **iOS** 设备顶部状态栏亮度
     statusBarIconBrightness: brightness, //该属性仅用于 **Android** 底部状态栏图标样式颜色
   ));
+}
+
+//带文字的小图标
+smallIconText(IconData iconData, var text) {
+  var style = TextStyle(fontSize: 12, color: Colors.grey);
+  if (text is int) {
+    text = countFormat(text);
+  }
+  return [
+    Icon(
+      iconData,
+      color: Colors.grey,
+      size: 12,
+    ),
+    Text(
+      '$text',
+      style: style,
+    )
+  ];
+}
+
+//border线
+borderLine(BuildContext context,{bottom:true,top:false}){
+  BorderSide borderSide = BorderSide(width: 0.5,color: Colors.grey);
+  return Border(
+    bottom: bottom?borderSide:BorderSide.none,
+    top: top?borderSide:BorderSide.none
+  );
+}
+
+///间距
+SizedBox hiSpace({double height: 1, double width: 1}) {
+  return SizedBox(height: height, width: width);
+}
+///底部阴影
+BoxDecoration? bottomBoxShadow() {
+  return BoxDecoration(color: Colors.white, boxShadow: [
+    BoxShadow(
+        color: Colors.grey[100]!,
+        offset: Offset(0, 5), //xy轴偏移
+        blurRadius: 5.0, //阴影模糊程度
+        spreadRadius: 1 //阴影扩散程度
+    )
+  ]);
 }

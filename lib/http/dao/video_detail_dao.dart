@@ -1,0 +1,15 @@
+import 'package:yu_bilibili/http/core/hi_net.dart';
+import 'package:yu_bilibili/http/request/video_detail_request.dart';
+import 'package:yu_bilibili/model/video_detail_mo.dart';
+
+///详情页Dao
+class VideoDetailDao {
+  //https://api.devio.org/uapi/fa/detail/BV19C4y1s7Ka
+  static get(String vid) async {
+    VideoDetailRequest request = VideoDetailRequest();
+    request.pathParams = vid;
+    var result = await HiNet.getInstance().fire(request);
+    print(result);
+    return VideoDetailMo.fromJson(result['data']);
+  }
+}

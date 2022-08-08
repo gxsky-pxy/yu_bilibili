@@ -6,7 +6,6 @@ import 'package:yu_bilibili/http/dao/home_dao.dart';
 import 'package:yu_bilibili/model/home_mo.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/page/home_tab_page.dart';
-import 'package:yu_bilibili/util/color.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
@@ -90,7 +89,8 @@ class _HomePageState extends HiState<HomePage>
                 statusStyle: StatusStyle.DARK_CONTENT,
               ),
               Container(
-                color: Colors.white,
+                decoration: bottomBoxShadow(),
+                // color: Colors.white,
                 padding: EdgeInsets.only(top: 30),
                 child: _tabBar(),
               ),
