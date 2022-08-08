@@ -11,7 +11,7 @@ abstract class BaseRequest {
   }
 
   HttpMethod httpMethod();
-  String path();
+  String path();//api请求路径
   String url() {
     Uri uri;
     var pathStr = path();
@@ -37,7 +37,7 @@ abstract class BaseRequest {
     return uri.toString();
   }
 
-  bool needLogin();
+  bool needLogin();//该接口是否需要登录
   Map<String, String> params = Map();
   //添加参数
   BaseRequest add(String k, Object v) {

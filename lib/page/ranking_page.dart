@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yu_bilibili/http/dao/ranking_dao.dart';
+import 'package:yu_bilibili/page/ranking_tab_page.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
@@ -22,6 +24,7 @@ class _RankingPageState extends State<RankingPage> with TickerProviderStateMixin
     // TODO: implement initState
     super.initState();
     _controller = TabController(length: TABS.length, vsync: this);
+    RankingDao.get("like");
   }
   @override
   void dispose() {
@@ -63,13 +66,11 @@ class _RankingPageState extends State<RankingPage> with TickerProviderStateMixin
   }
 
   _buildTabView() {
-    return Text('AAAAAA');
+    return Flexible(
+        child: TabBarView(
+            controller: _controller,
+            children: TABS.map((tab) {
+              return RankingTabPage(sort: tab['key'] as String);
+            }).toList()));
   }
-  //   return Flexible(
-  //       child: TabBarView(
-  //           controller: _controller,
-  //           children: TABS.map((tab) {
-  //             return RankingTabPage(sort: tab['key'] as String);
-  //           }).toList()));
-  // }
 }

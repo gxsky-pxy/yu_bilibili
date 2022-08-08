@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:yu_bilibili/navigator/bottom_navigator.dart';
 import 'package:yu_bilibili/page/login_page.dart';
+import 'package:yu_bilibili/page/notice_page.dart';
 import 'package:yu_bilibili/page/registration_page.dart';
 import 'package:yu_bilibili/page/video_detail_page.dart';
 
@@ -23,7 +24,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装,路由状态
-enum RouteStatus { login, registration, home, detail, unknown }
+enum RouteStatus { login, registration, home, detail, unknown,notice  }
 
 //获取page对应的路由状态
 RouteStatus getStatus(MaterialPage page) {
@@ -33,6 +34,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.registration;
   } else if (page.child is BottomNavigator) {
     return RouteStatus.home;
+  } else if (page.child is NoticePage) {
+    return RouteStatus.notice;
   } else if (page.child is VideoDetailPage) {
     return RouteStatus.detail;
   } else {

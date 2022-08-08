@@ -197,13 +197,18 @@ class _HomePageState extends HiState<HomePage>
               Icons.explore_outlined,
               color: Colors.grey,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 12),
-              child: Icon(
-                Icons.mail_outline,
-                color: Colors.grey,
+            GestureDetector(
+              onTap: (){
+                HiNavigator.getInstance().onJumpTo(RouteStatus.notice);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Icon(
+                  Icons.mail_outline,
+                  color: Colors.grey,
+                ),
               ),
-            )
+            ),
           ],
         ));
   }

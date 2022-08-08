@@ -5,6 +5,7 @@ import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/navigator/bottom_navigator.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/page/login_page.dart';
+import 'package:yu_bilibili/page/notice_page.dart';
 import 'package:yu_bilibili/page/registration_page.dart';
 import 'package:yu_bilibili/page/video_detail_page.dart';
 import 'package:yu_bilibili/util/toast.dart';
@@ -79,6 +80,8 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       page = pageWrap(RegistrationPage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
+    }else if (routeStatus == RouteStatus.notice) {
+      page = pageWrap(NoticePage());
     }
     //重新创建一个数据，否则pages因引用没有改变路由没有生效
     tempPages = [...tempPages, page];
