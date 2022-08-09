@@ -1,4 +1,6 @@
 //时间转换将秒转为分钟：秒
+import 'package:intl/intl.dart';
+
 String durationTransform(int seconds) {
   int m = (seconds / 60).truncate();
   int s = seconds - m * 60;
@@ -18,4 +20,13 @@ String countFormat(int count) {
     views = count.toString();
   }
   return views;
+}
+
+
+///日期格式化，2022-06-11 20:06:43 -> 06-11
+String dateMonthAndDay(String dateStr) {
+  DateTime now = DateTime.now();
+  DateFormat formatter = DateFormat('MM-dd');
+  String formatted = formatter.format(now);
+  return formatted;
 }

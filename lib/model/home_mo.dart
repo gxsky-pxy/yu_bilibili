@@ -59,7 +59,7 @@ class BannerMo {
     title = json['title'];
     subtitle = json['subtitle'];
     url = json['url'];
-    cover = json['cover'];
+    cover = json['cover'] == null?'':json['cover'];
     createTime = json['createTime'];
   }
 

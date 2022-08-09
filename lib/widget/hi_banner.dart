@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yu_bilibili/model/home_mo.dart';
 import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
@@ -61,6 +62,14 @@ class HiBanner extends StatelessWidget {
     } else {
       print('type:${bannerMo.type} ,url:${bannerMo.url}');
       //todo
+      Uri _url = Uri.parse(bannerMo.url);
+      _launchUrl(_url);
+    }
+  }
+
+  Future <void> _launchUrl(Uri url) async{
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
     }
   }
 }

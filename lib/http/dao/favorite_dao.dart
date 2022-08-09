@@ -5,6 +5,7 @@ import 'package:yu_bilibili/http/request/favorite_list_request.dart';
 import 'package:yu_bilibili/http/request/favorite_request.dart';
 import 'package:yu_bilibili/model/ranking_mo.dart';
 
+//dao层进行组装 调用
 class FavoriteDao {
   // https://api.devio.org/uapi/fa/favorite/BV1qt411j7fV
   static favorite(String vid, bool favorite) async {

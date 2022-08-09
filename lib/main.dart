@@ -49,6 +49,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     HiNavigator.getInstance().registerRouteJump(
         RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map? args}) {
       _routerStatus = routeStatus;
+      print(_routerStatus);
       if (routeStatus == RouteStatus.detail) {
         this.videoModel = args?['videoMo'];
       }
@@ -123,8 +124,6 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
   RouteStatus get routeStatus {
     if (_routerStatus != RouteStatus.registration && !hasLogin) {
       return _routerStatus = RouteStatus.login;
-    } else if (videoModel != null) {
-      return _routerStatus = RouteStatus.detail;
     } else {
       return _routerStatus;
     }
