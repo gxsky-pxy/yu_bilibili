@@ -27,9 +27,7 @@ class _HomeTabPageState extends HiBaseTabState<HomeMo,VideoModel,HomeTabPage>{
   }
 
   _banner() {
-    return Padding(
-        padding: EdgeInsets.only(left: 5, right: 5),
-        child: HiBanner(widget.bannerList!));
+    return HiBanner(widget.bannerList!,padding: EdgeInsets.only(left: 5,right: 5));
   }
 
   @override
