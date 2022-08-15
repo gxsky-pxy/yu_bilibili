@@ -14,13 +14,17 @@ class VideoView extends StatefulWidget {
   final bool looping; //是否轮播
   final double aspectRatio;
   final Widget? overlayUI;
-  const VideoView(this.url,
+  final Widget? barrageUI;
+  final ValueChanged? onChanged;
+
+   VideoView(this.url,
       {Key? key,
       required this.cover,
       this.autoPlay = false,
       this.looping = false,
       this.aspectRatio = 16 / 9,
-      this.overlayUI})
+      this.overlayUI,
+      this.barrageUI, this.onChanged})
       : super(key: key);
 
   @override
@@ -60,9 +64,14 @@ class _VideoViewState extends State<VideoView> {
           showBigPlayIcon: false,
           bottomGradient: blackLinearGradient(),
           overlayUI: widget.overlayUI,
+          barrageUI: widget.barrageUI,
+          onChanged: (status){
+            widget.onChanged!(status);
+          },
         ),
         materialProgressColors: _progressColors);
     _chewieController.addListener(_fullScreenListener);
+    _videoPlayerController.addListener(() {});
   }
 
   @override

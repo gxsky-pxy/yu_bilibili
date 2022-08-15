@@ -10,6 +10,7 @@ import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:yu_bilibili/util/EventBus.dart';
 import 'package:yu_bilibili/util/color.dart';
 
 ///自定义播放器UI
@@ -30,13 +31,15 @@ class MaterialControls extends StatefulWidget {
   //弹幕浮层
   final Widget? barrageUI;
 
+  final ValueChanged? onChanged;
+
   const MaterialControls(
       {Key? key,
         this.showLoadingOnInitialize = true,
         this.showBigPlayIcon = true,
         this.overlayUI,
         this.bottomGradient,
-        this.barrageUI})
+        this.barrageUI, this.onChanged})
       : super(key: key);
 
   @override
@@ -100,11 +103,13 @@ class _MaterialControlsState extends State<MaterialControls>
             children: [
               widget.barrageUI ?? Container(),
               if (_latestValue.isBuffering)
-                const Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(color: primaryColor),
-                  ),
-                )
+                 Flex(direction: Axis.vertical,children: [
+                   Expanded(
+                     child: Center(
+                       child: CircularProgressIndicator(color: primaryColor),
+                     ),
+                   )
+                ])
               else
                 _buildHitArea(),
               // _buildActionBar(),
@@ -374,24 +379,28 @@ class _MaterialControlsState extends State<MaterialControls>
 
   void _playPause() {
     final isFinished = _latestValue.position >= _latestValue.duration;
-
     setState(() {
       if (controller.value.isPlaying) {
+        widget.onChanged!('pause');
         notifier.hideStuff = false;
         _hideTimer?.cancel();
         controller.pause();
+        bus.emit('changeVideoPlayOrPause','pause');
       } else {
         _cancelAndRestartTimer();
-
         if (!controller.value.isInitialized) {
           controller.initialize().then((_) {
+            widget.onChanged!('play');
             controller.play();
+            bus.emit('changeVideoPlayOrPause','play');
           });
         } else {
           if (isFinished) {
             controller.seekTo(const Duration());
           }
+          widget.onChanged!('play');
           controller.play();
+          bus.emit('changeVideoPlayOrPause','play');
         }
       }
     });

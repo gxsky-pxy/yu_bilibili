@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_overlay/flutter_overlay.dart';
+import 'package:yu_bilibili/barrage/barrage_input.dart';
+import 'package:yu_bilibili/barrage/hi_barrage.dart';
 import 'package:yu_bilibili/http/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/favorite_dao.dart';
 import 'package:yu_bilibili/http/dao/like_dao.dart';
@@ -35,10 +38,11 @@ class _VideoDetailPageState extends State<VideoDetailPage>
   VideoDetailMo? videoDetailMo;
   VideoModel? videoModel;
   List<VideoModel> videoList = [];
+  var _barrageKey = GlobalKey<HiBarrageState>();
+  bool _inputShowing = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = TabController(length: tabs.length, vsync: this);
     videoModel = widget.videoModel;
@@ -90,6 +94,19 @@ class _VideoDetailPageState extends State<VideoDetailPage>
       model!.url!,
       cover: model.cover,
       overlayUI: videoAppBar(),
+      barrageUI: HiBarrage(
+        key:_barrageKey,
+        vid: model.vid,
+        autoPlay: false
+      ),
+      onChanged: (status){
+        //点击视频开始的时候才播放弹幕
+        if (status == 'play') {
+          _barrageKey.currentState?.play();
+        }else{
+          _barrageKey.currentState?.pause();
+        }
+      },
     );
   }
 
@@ -106,13 +123,7 @@ class _VideoDetailPageState extends State<VideoDetailPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _tabBar(),
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(
-                Icons.live_tv_rounded,
-                color: Colors.grey,
-              ),
-            )
+            _buildBarrageBtn()
           ],
         ),
       ),
@@ -232,5 +243,34 @@ class _VideoDetailPageState extends State<VideoDetailPage>
     return videoList
         .map((VideoModel mo) => VideoLargeCard(videoModel: mo))
         .toList();
+  }
+
+  _buildBarrageBtn() {
+    return GestureDetector(
+      onTap: (){
+        //遮罩层插件
+        HiOverlay.show(context, child: BarrageInput(onTabClose: (){
+          setState(() {
+            _inputShowing = false;
+          });
+        })).then((value){
+          //这里用到了导航器返回时向上一级页面传值的操作。
+          //1. HiOverlay的show方法包装的是Navigator.of(context).push(_HiOverlay(child))，
+          // 然后返回的是Future<String?> 代表着下一级页面的返回值；
+          //2. 我们在video_detail_page中通过HiOverlay.show(context, child: BarrageInput())
+          // 调用HiOverlay的show的时候传递了一个BarrageInput页面；
+          //3.   BarrageInput在关闭的时候会通过 Navigator.pop(context, text)向上一节页面传递text：
+          print('---input ：$value');
+          _barrageKey.currentState!.send(value!);
+        });
+      },
+      child: Padding(
+        padding: EdgeInsets.only(right: 20),
+        child: Icon(
+          Icons.live_tv_rounded,
+          color: Colors.grey,
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:yu_bilibili/http/dao/login_dao.dart';
+import 'package:yu_bilibili/util/hi_constants.dart';
 
 enum HttpMethod { GET, POST, DELETE }
 
@@ -46,8 +47,8 @@ abstract class BaseRequest {
   }
 
   Map<String, dynamic> header = {
-    'course-flag': 'fa',
-    'auth-token': 'ZmEtMjAyMS0wNC0xMiAyMToyMjoyMC1mYQ==fa'
+    HiConstants.authTokenK: HiConstants.authTokenV,
+    HiConstants.courseFlagK: HiConstants.courseFlagV
   };
   //添加header
   BaseRequest addHeader(String k, Object v) {
