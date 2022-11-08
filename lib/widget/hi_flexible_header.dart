@@ -53,7 +53,7 @@ class _HiFlexibleHeaderState extends State<HiFlexibleHeader> {
             child: cachedImage(widget.face,width: 46,height: 46),
           ),
           hiSpace(width: 8),
-          Text(widget.name,style: TextStyle(fontSize: 11,color: Colors.black54),)
+          Text(widget.name,style: TextStyle(fontSize: 11),)
         ],
       ),
     );

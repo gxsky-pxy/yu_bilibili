@@ -1,9 +1,11 @@
 //自定义顶部appbar
 import 'package:flutter/material.dart';
+import 'package:yu_bilibili/util/color.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 
 appBar(String title, String rightTitle, VoidCallback? rightButtonClick) {
   return AppBar(
+    backgroundColor: primaryColor,
     //让tltle居左
     centerTitle: false,
     titleSpacing: 0,

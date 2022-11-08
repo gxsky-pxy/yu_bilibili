@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:yu_bilibili/core/hi_state.dart';
 import 'package:yu_bilibili/http/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/home_dao.dart';
 import 'package:yu_bilibili/model/home_mo.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/page/home_tab_page.dart';
+import 'package:yu_bilibili/provider/theme_provider.dart';
+import 'package:yu_bilibili/util/color.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
@@ -53,6 +58,14 @@ class _HomePageState extends HiState<HomePage>
     super.dispose();
   }
 
+  //监听系统dark mode变化
+  @override
+  void didChangePlatformBrightness() {
+    // TODO: implement didChangePlatformBrightness
+    context.read<ThemeProvider>().darkModeChange();
+    super.didChangePlatformBrightness();
+  }
+
   //监听应用生命周期变化
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -73,11 +86,14 @@ class _HomePageState extends HiState<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemeProvider>();
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        // value: SystemUiOverlayStyle.dark,
-      value: SystemUiOverlayStyle.dark.copyWith(
+      value: themeProvider.isDark()?SystemUiOverlayStyle.light:SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-      ),
+       ),
+      // value: SystemUiOverlayStyle.dark.copyWith(
+      //   statusBarColor: Colors.transparent,
+      // ),
         child: LoadingContainer(
           isLoading: _isLoading,
           child: Column(
@@ -85,11 +101,11 @@ class _HomePageState extends HiState<HomePage>
               NavigationBarPlus(
                 child: _appBar(),
                 height: 50,
-                color: Colors.white,
+                color: themeProvider.isDark()?HiColor.dark_bg:Colors.transparent,
                 statusStyle: StatusStyle.DARK_CONTENT,
               ),
               Container(
-                decoration: bottomBoxShadow(),
+                decoration: bottomBoxShadow(context),
                 // color: Colors.white,
                 padding: EdgeInsets.only(top: 30),
                 child: _tabBar(),
@@ -193,9 +209,14 @@ class _HomePageState extends HiState<HomePage>
                 ),
               ),
             ),
-            Icon(
-              Icons.explore_outlined,
-              color: Colors.grey,
+            InkWell(
+              onTap: (){
+                _mockCrash();
+              },
+              child:             Icon(
+                Icons.explore_outlined,
+                color: Colors.grey,
+              ),
             ),
             GestureDetector(
               onTap: (){
@@ -212,4 +233,12 @@ class _HomePageState extends HiState<HomePage>
           ],
         ));
   }
+}
+
+//模拟Crash
+void _mockCrash() async{
+  //只抛异常不捕获，main.dart的runZonedGuarded就会捕获
+  Future.delayed(Duration(seconds: 1)).then((value) => throw StateError('main那边的:runZonedGuarded异步捕获异常,$value'));
+
+  throw StateError('this is a dart exception.');
 }

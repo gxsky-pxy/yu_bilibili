@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nested/flutter_nested.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:yu_bilibili/core/hi_base_tab_state.dart';
 import 'package:yu_bilibili/http/dao/home_dao.dart';
@@ -17,7 +18,8 @@ class HomeTabPage extends StatefulWidget {
   State<HomeTabPage> createState() => _HomeTabPageState();
 }
 
-class _HomeTabPageState extends HiBaseTabState<HomeMo,VideoModel,HomeTabPage>{
+class _HomeTabPageState
+    extends HiBaseTabState<HomeMo, VideoModel, HomeTabPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -27,38 +29,56 @@ class _HomeTabPageState extends HiBaseTabState<HomeMo,VideoModel,HomeTabPage>{
   }
 
   _banner() {
-    return HiBanner(widget.bannerList!,padding: EdgeInsets.only(left: 5,right: 5));
+    return HiBanner(widget.bannerList!,
+        padding: EdgeInsets.only(left: 5, right: 5));
   }
 
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  @override
-  // TODO: implement contentChild
-  get contentChild => ListView(
-    controller: scrollController,
-    physics: const AlwaysScrollableScrollPhysics(),//解决如果数据不足一屏的时候没办法下拉刷新
-    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-    children: [
-      StaggeredGrid.count(
-        crossAxisCount: 2, //表格布局列的数量
-        axisDirection: AxisDirection.down,
-        mainAxisSpacing: 4, //垂直子Widge之间的间距
-        crossAxisSpacing: 4, //水平子Widget之间的间距
-        children: [
-          if (widget.bannerList != null)
-            StaggeredGridTile.fit(crossAxisCellCount: 2, child: _banner()),
-          ...dataList.map((videoMo) => StaggeredGridTile.fit(
-              crossAxisCellCount: 1, child: VideoCard(videoModel: videoMo))),
-        ],
-      ),
-    ],
-  );
+  // @override
+  // // TODO: implement contentChild
+  // get contentChild => ListView(
+  //   controller: scrollController,
+  //   physics: const AlwaysScrollableScrollPhysics(),//解决如果数据不足一屏的时候没办法下拉刷新
+  //   padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+  //   children: [
+  //     StaggeredGrid.count(
+  //       crossAxisCount: 2, //表格布局列的数量
+  //       axisDirection: AxisDirection.down,
+  //       mainAxisSpacing: 4, //垂直子Widge之间的间距
+  //       crossAxisSpacing: 4, //水平子Widget之间的间距
+  //       children: [
+  //         if (widget.bannerList != null)
+  //           StaggeredGridTile.fit(crossAxisCellCount: 2, child: _banner()),
+  //         ...dataList.map((videoMo) => StaggeredGridTile.fit(
+  //             crossAxisCellCount: 1, child: VideoCard(videoModel: videoMo))),
+  //       ],
+  //     ),
+  //   ],
+  // );
 
   @override
-  Future<HomeMo> getData(int pageIndex) async{
-    HomeMo result = await HomeDao.get(widget.categoryName,pageIndex: pageIndex,pageSize: 10);
+  // TODO: implement contentChild
+  get contentChild => HiNestedScrollView(
+      controller: scrollController,
+      itemCount: dataList.length,
+      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+      headers: [
+        if (widget.bannerList != null)
+          Padding(padding: EdgeInsets.only(bottom: 8), child: _banner())
+      ],
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, childAspectRatio: 0.82),
+      itemBuilder: (BuildContext context, int index) {
+        return VideoCard(videoModel: dataList[index]);
+      });
+
+  @override
+  Future<HomeMo> getData(int pageIndex) async {
+    HomeMo result = await HomeDao.get(widget.categoryName,
+        pageIndex: pageIndex, pageSize: 10);
     return result;
   }
 

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yu_bilibili/db/hi_cache.dart';
 import 'package:yu_bilibili/http/dao/login_dao.dart';
 import 'package:yu_bilibili/model/video_model.dart';
@@ -8,10 +11,14 @@ import 'package:yu_bilibili/page/login_page.dart';
 import 'package:yu_bilibili/page/notice_page.dart';
 import 'package:yu_bilibili/page/registration_page.dart';
 import 'package:yu_bilibili/page/video_detail_page.dart';
+import 'package:yu_bilibili/provider/hi_provider.dart';
+import 'package:yu_bilibili/provider/theme_provider.dart';
+import 'package:yu_bilibili/util/hi_defend.dart';
 import 'package:yu_bilibili/util/toast.dart';
 
 void main() {
-  runApp(const BiliApp());
+  //异常集中捕获
+  HiDefend().run(const BiliApp());
 }
 
 class BiliApp extends StatefulWidget {
@@ -34,7 +41,20 @@ class _BiliAppState extends State<BiliApp> {
               : Scaffold(
                   body: Center(child: CircularProgressIndicator()),
                 );
-          return MaterialApp(home: widget);
+          return MultiProvider(
+            providers: topProviders,
+            child: Consumer<ThemeProvider>(
+              builder: (BuildContext context, ThemeProvider themeProvider,
+                  Widget? child) {
+                return MaterialApp(
+                  home: widget,
+                  theme: themeProvider.getTheme(),
+                  darkTheme: themeProvider.getTheme(isDarkMode: true),
+                  themeMode: themeProvider.getThemeMode(),
+                );
+              },
+            ),
+          );
         });
   }
 }
@@ -81,7 +101,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       page = pageWrap(RegistrationPage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
-    }else if (routeStatus == RouteStatus.notice) {
+    } else if (routeStatus == RouteStatus.notice) {
       page = pageWrap(NoticePage());
     }
     //重新创建一个数据，否则pages因引用没有改变路由没有生效

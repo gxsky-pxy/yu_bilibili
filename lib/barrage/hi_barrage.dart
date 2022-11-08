@@ -91,6 +91,7 @@ class HiBarrageState extends State<HiBarrage> implements IBarrage {
     } else {
       _barrageModelList.addAll(modelList);
     }
+    print('instant:${instant},${_barrageStatus}');
 
     //收到新的弹幕后播放
     if (_barrageStatus == BarrageStatus.play) {
@@ -159,7 +160,7 @@ class HiBarrageState extends State<HiBarrage> implements IBarrage {
     if (messgae == null) return;
     _hiSocket.send(messgae);
     _handleMessage(
-        [BarrageModel(content: messgae, vid: '-1', priority: 1, type: 1)]);
+        [BarrageModel(content: messgae, vid: '-1', priority: 1, type: 1)],instant: true);
   }
 
   void _onComplete(value) {

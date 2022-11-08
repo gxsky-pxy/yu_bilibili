@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yu_bilibili/http/dao/ranking_dao.dart';
 import 'package:yu_bilibili/page/ranking_tab_page.dart';
+import 'package:yu_bilibili/provider/theme_provider.dart';
+import 'package:yu_bilibili/util/color.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
@@ -34,17 +37,20 @@ class _RankingPageState extends State<RankingPage> with TickerProviderStateMixin
   }
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemeProvider>();
+    Color textColor = themeProvider.isDark()?HiColor.dark_bg:Colors.white;
     return Scaffold(
       body: Column(
-        children: [_buildNavigationBar(), _buildTabView()],
+        children: [_buildNavigationBar(textColor), _buildTabView()],
       ),
     );
   }
 
-  _buildNavigationBar() {
+  _buildNavigationBar(Color textColor) {
     return NavigationBarPlus(
+        color:textColor,
       child: Container(
-        decoration: bottomBoxShadow(),
+        decoration: bottomBoxShadow(context),
         alignment: Alignment.center,
         child: _tabBar(),
       )

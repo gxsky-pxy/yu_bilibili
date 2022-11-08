@@ -35,11 +35,12 @@ class MaterialControls extends StatefulWidget {
 
   const MaterialControls(
       {Key? key,
-        this.showLoadingOnInitialize = true,
-        this.showBigPlayIcon = true,
-        this.overlayUI,
-        this.bottomGradient,
-        this.barrageUI, this.onChanged})
+      this.showLoadingOnInitialize = true,
+      this.showBigPlayIcon = true,
+      this.overlayUI,
+      this.bottomGradient,
+      this.barrageUI,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -73,15 +74,21 @@ class _MaterialControlsState extends State<MaterialControls>
   void initState() {
     super.initState();
     notifier = Provider.of<PlayerNotifier>(context, listen: false);
+    bus.on('onVideoPlay', (arg) {
+      print('当前需要暂停并且视频是播放状态或当前需要播放且视频是暂停才调用');
+      if((arg == 'pause' && controller.value.isPlaying)||(arg == 'play' && !controller.value.isPlaying)){
+        _playPause2(arg);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (_latestValue.hasError) {
       return chewieController.errorBuilder?.call(
-        context,
-        chewieController.videoPlayerController.value.errorDescription!,
-      ) ??
+            context,
+            chewieController.videoPlayerController.value.errorDescription!,
+          ) ??
           const Center(
             child: Icon(
               Icons.error,
@@ -103,12 +110,12 @@ class _MaterialControlsState extends State<MaterialControls>
             children: [
               widget.barrageUI ?? Container(),
               if (_latestValue.isBuffering)
-                 Flex(direction: Axis.vertical,children: [
-                   Expanded(
-                     child: Center(
-                       child: CircularProgressIndicator(color: primaryColor),
-                     ),
-                   )
+                Flex(direction: Axis.vertical, children: [
+                  Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(color: primaryColor),
+                    ),
+                  )
                 ])
               else
                 _buildHitArea(),
@@ -121,7 +128,7 @@ class _MaterialControlsState extends State<MaterialControls>
                       offset: Offset(
                           0.0, notifier.hideStuff ? barHeight * 0.8 : 0.0),
                       child:
-                      _buildSubtitles(context, chewieController.subtitle!),
+                          _buildSubtitles(context, chewieController.subtitle!),
                     ),
                   _buildBottomBar(context),
                 ],
@@ -137,6 +144,7 @@ class _MaterialControlsState extends State<MaterialControls>
   @override
   void dispose() {
     _dispose();
+    bus.off('onVideoPlay');
     super.dispose();
   }
 
@@ -198,8 +206,8 @@ class _MaterialControlsState extends State<MaterialControls>
 
   ///底部控制栏
   AnimatedOpacity _buildBottomBar(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     final iconColor = Theme.of(context).textTheme.button!.color;
 
     return AnimatedOpacity(
@@ -208,7 +216,7 @@ class _MaterialControlsState extends State<MaterialControls>
       child: Container(
         height: barHeight,
         decoration: BoxDecoration(
-          //渐变
+            //渐变
             gradient: widget.bottomGradient),
         child: Row(
           children: <Widget>[
@@ -281,32 +289,32 @@ class _MaterialControlsState extends State<MaterialControls>
 
     return widget.showBigPlayIcon
         ? GestureDetector(
-      onTap: () {
-        if (_latestValue.isPlaying) {
-          if (_displayTapped) {
-            setState(() {
-              notifier.hideStuff = true;
-            });
-          } else {
-            _cancelAndRestartTimer();
-          }
-        } else {
-          _playPause();
+            onTap: () {
+              if (_latestValue.isPlaying) {
+                if (_displayTapped) {
+                  setState(() {
+                    notifier.hideStuff = true;
+                  });
+                } else {
+                  _cancelAndRestartTimer();
+                }
+              } else {
+                _playPause();
 
-          setState(() {
-            notifier.hideStuff = true;
-          });
-        }
-      },
-      child: CenterPlayButton(
-        backgroundColor: Colors.black54,
-        iconColor: Colors.white,
-        isFinished: isFinished,
-        isPlaying: controller.value.isPlaying,
-        show: !_dragging && !notifier.hideStuff,
-        onPressed: _playPause,
-      ),
-    )
+                setState(() {
+                  notifier.hideStuff = true;
+                });
+              }
+            },
+            child: CenterPlayButton(
+              backgroundColor: Colors.black54,
+              iconColor: Colors.white,
+              isFinished: isFinished,
+              isPlaying: controller.value.isPlaying,
+              show: !_dragging && !notifier.hideStuff,
+              onPressed: _playPause,
+            ),
+          )
         : Container();
   }
 
@@ -370,10 +378,10 @@ class _MaterialControlsState extends State<MaterialControls>
       chewieController.toggleFullScreen();
       _showAfterExpandCollapseTimer =
           Timer(const Duration(milliseconds: 300), () {
-            setState(() {
-              _cancelAndRestartTimer();
-            });
-          });
+        setState(() {
+          _cancelAndRestartTimer();
+        });
+      });
     });
   }
 
@@ -385,14 +393,14 @@ class _MaterialControlsState extends State<MaterialControls>
         notifier.hideStuff = false;
         _hideTimer?.cancel();
         controller.pause();
-        bus.emit('changeVideoPlayOrPause','pause');
+        bus.emit('changeVideoPlayOrPause', 'pause');
       } else {
         _cancelAndRestartTimer();
         if (!controller.value.isInitialized) {
           controller.initialize().then((_) {
             widget.onChanged!('play');
             controller.play();
-            bus.emit('changeVideoPlayOrPause','play');
+            bus.emit('changeVideoPlayOrPause', 'play');
           });
         } else {
           if (isFinished) {
@@ -400,7 +408,36 @@ class _MaterialControlsState extends State<MaterialControls>
           }
           widget.onChanged!('play');
           controller.play();
-          bus.emit('changeVideoPlayOrPause','play');
+          bus.emit('changeVideoPlayOrPause', 'play');
+        }
+      }
+    });
+  }
+
+  void _playPause2(String status) {
+    final isFinished = _latestValue.position >= _latestValue.duration;
+    setState(() {
+      if (status == 'pause') {
+        widget.onChanged!('pause');
+        notifier.hideStuff = false;
+        _hideTimer?.cancel();
+        controller.pause();
+        bus.emit('changeVideoPlayOrPause', 'pause');
+      } else {
+        _cancelAndRestartTimer();
+        if (!controller.value.isInitialized) {
+          controller.initialize().then((_) {
+            widget.onChanged!('play');
+            controller.play();
+            bus.emit('changeVideoPlayOrPause', 'play');
+          });
+        } else {
+          if (isFinished) {
+            controller.seekTo(const Duration());
+          }
+          widget.onChanged!('play');
+          controller.play();
+          bus.emit('changeVideoPlayOrPause', 'play');
         }
       }
     });
@@ -458,9 +495,9 @@ class _MaterialControlsState extends State<MaterialControls>
   _overlayUI() {
     return widget.overlayUI != null
         ? AnimatedOpacity(
-        opacity: notifier.hideStuff ? 0.0 : 1.0,
-        duration: Duration(milliseconds: 300),
-        child: widget.overlayUI)
+            opacity: notifier.hideStuff ? 0.0 : 1.0,
+            duration: Duration(milliseconds: 300),
+            child: widget.overlayUI)
         : Container();
   }
 }

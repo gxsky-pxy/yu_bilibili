@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yu_bilibili/http/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/profile_dao.dart';
 import 'package:yu_bilibili/model/profile_mo.dart';
+import 'package:yu_bilibili/provider/theme_provider.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/benefit_card.dart';
@@ -29,12 +31,14 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    var themeProvider = context.watch<ThemeProvider>();
+    bool isDark = themeProvider.isDark();
     return Scaffold(
       body: NestedScrollView(
         controller: _controller,
         headerSliverBuilder: (BuildContext context,bool innerBoxIsScrolled){
           return <Widget>[
-            _buildAppBar()
+            _buildAppBar(isDark)
           ];
         },
         body: ListView(
@@ -69,9 +73,9 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  _buildAppBar() {
+  _buildAppBar(bool isDark) {
     return  SliverAppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: isDark?Colors.black:Colors.white,
       //扩展高度
       expandedHeight: 160,
       //标题栏是否固定
