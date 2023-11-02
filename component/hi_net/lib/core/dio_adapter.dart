@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:yu_bilibili/http/core/hi_adapter.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
-import 'package:yu_bilibili/http/request/base_request.dart';
+import 'package:hi_net/core/hi_error.dart';
+import 'package:hi_net/core/hi_net_adapter.dart';
+import 'package:hi_net/request/hi_base_request.dart';
 
 ///Dio适配器
 class DioAdapter extends HiNetAdapter {
   @override
-  Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
+  Future<HiNetResponse<T>> send<T>(HiBaseRequest request) async {
     var response, options = Options(headers: request.header);
     var error;
     try {
@@ -33,7 +33,7 @@ class DioAdapter extends HiNetAdapter {
 
   ///构建HiNetResponse
   Future<HiNetResponse<T>> buildRes<T>(
-      Response? response, BaseRequest request) {
+      Response? response, HiBaseRequest request) {
     //创建一个有值返回的Future。如果返回值又是Future，则创建的Future将等待返回的future完成后将相同类型的结果返回。
     return Future.value(HiNetResponse(
         //?.防止response为空

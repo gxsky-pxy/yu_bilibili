@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:yu_bilibili/model/video_model.dart';
-import 'package:yu_bilibili/util/view_util.dart';
 
 class ExpandableContent extends StatefulWidget {
   final VideoModel mo;

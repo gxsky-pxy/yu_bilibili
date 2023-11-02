@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
-import 'package:yu_bilibili/util/color.dart';
-import 'package:yu_bilibili/core/hi_state.dart';
+import 'package:hi_net/core/hi_error.dart';
+import 'package:hi_base/color.dart';
 import 'package:yu_bilibili/util/toast.dart';
-
+import 'package:hi_base/hi_state.dart';
 //通用底层带分页和刷新的页面框架
 ///M作为Dao返回数据模型 L为列表数据模型 T为具体widget
 abstract class HiBaseTabState<M, L, T extends StatefulWidget> extends HiState<T>

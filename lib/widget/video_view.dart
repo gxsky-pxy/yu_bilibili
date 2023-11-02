@@ -1,10 +1,10 @@
 import 'package:chewie/chewie.dart' hide MaterialControls;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:orientation/orientation.dart';
 import 'package:video_player/video_player.dart';
-import 'package:yu_bilibili/util/color.dart';
-import 'package:yu_bilibili/util/view_util.dart';
+import 'package:hi_base/color.dart';
 import 'package:yu_bilibili/widget/hi_video_controls.dart';
 
 class VideoView extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:yu_bilibili/http/core/hi_net.dart';
+import 'package:hi_net/hi_net.dart';
 import 'package:yu_bilibili/http/request/base_request.dart';
 import 'package:yu_bilibili/http/request/cancel_favorite_request.dart';
 import 'package:yu_bilibili/http/request/favorite_list_request.dart';

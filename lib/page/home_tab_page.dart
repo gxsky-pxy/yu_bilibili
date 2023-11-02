@@ -70,7 +70,7 @@ class _HomeTabPageState
           Padding(padding: EdgeInsets.only(bottom: 8), child: _banner())
       ],
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 0.82),
+          crossAxisCount: 2, childAspectRatio: 0.98),
       itemBuilder: (BuildContext context, int index) {
         return VideoCard(videoModel: dataList[index]);
       });

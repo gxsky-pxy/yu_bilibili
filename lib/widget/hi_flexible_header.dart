@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yu_bilibili/util/view_util.dart';
+import 'package:hi_base/view_util.dart';
+
 ///可动态改变位置的header组件
 ///性能优化:局部刷新的应用@刷新原理
 class HiFlexibleHeader extends StatefulWidget {

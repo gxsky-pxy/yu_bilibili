@@ -4,7 +4,7 @@ import 'package:yu_bilibili/page/favorite_page.dart';
 import 'package:yu_bilibili/page/home_page.dart';
 import 'package:yu_bilibili/page/profile_page.dart';
 import 'package:yu_bilibili/page/ranking_page.dart';
-import 'package:yu_bilibili/util/color.dart';
+import 'package:hi_base/color.dart';
 
 //底部导航
 class BottomNavigator extends StatefulWidget {

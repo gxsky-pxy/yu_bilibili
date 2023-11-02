@@ -1,7 +1,10 @@
-import 'package:yu_bilibili/http/core/dio_adapter.dart';
-import 'package:yu_bilibili/http/core/hi_adapter.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
-import 'package:yu_bilibili/http/request/base_request.dart';
+
+
+import 'package:hi_net/request/hi_base_request.dart';
+
+import 'core/dio_adapter.dart';
+import 'core/hi_error.dart';
+import 'core/hi_net_adapter.dart';
 
 ///1.支持网络库插拔设计，且不干扰业务层
 ///2.基于配置请求请求，简洁易用
@@ -19,7 +22,7 @@ class HiNet {
     return _instance!;
   }
 
-  Future fire(BaseRequest request) async {
+  Future fire(HiBaseRequest request) async {
     HiNetResponse? response;
     var error;
     try {
@@ -52,7 +55,7 @@ class HiNet {
     }
   }
 
-  Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
+  Future<HiNetResponse<T>> send<T>(HiBaseRequest request) async {
     ///使用Dio发送请求
     HiNetAdapter adapter = DioAdapter();
     return adapter.send(request);

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:yu_bilibili/util/EventBus.dart';
-import 'package:yu_bilibili/util/color.dart';
+import 'package:hi_base/color.dart';
 
 ///自定义播放器UI
 ///支持空安全的皮肤，for chewie: > ^1.2.0

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
+import 'package:hi_net/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/login_dao.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
-import 'package:yu_bilibili/util/string_util.dart';
+import 'package:hi_base/string_util.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/widget/appbar.dart';
 import 'package:yu_bilibili/widget/login_button.dart';

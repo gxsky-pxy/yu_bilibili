@@ -6,7 +6,7 @@ import 'package:flutter_overlay/flutter_overlay.dart';
 import 'package:yu_bilibili/barrage/barrageSwitch.dart';
 import 'package:yu_bilibili/barrage/barrage_input.dart';
 import 'package:yu_bilibili/barrage/hi_barrage.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
+import 'package:hi_net/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/favorite_dao.dart';
 import 'package:yu_bilibili/http/dao/like_dao.dart';
 import 'package:yu_bilibili/http/dao/video_detail_dao.dart';

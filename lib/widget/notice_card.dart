@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hi_base/format_util.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yu_bilibili/model/home_mo.dart';
 import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
-import 'package:yu_bilibili/util/format_util.dart';
-import 'package:yu_bilibili/util/view_util.dart';
 
 class NoticeCard extends StatelessWidget {
   final BannerMo notices;

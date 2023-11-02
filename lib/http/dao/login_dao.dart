@@ -1,5 +1,5 @@
 import 'package:yu_bilibili/db/hi_cache.dart';
-import 'package:yu_bilibili/http/core/hi_net.dart';
+import 'package:hi_net/hi_net.dart';
 import 'package:yu_bilibili/http/request/base_request.dart';
 import 'package:yu_bilibili/http/request/login_request.dart';
 import 'package:yu_bilibili/http/request/registration_request.dart';

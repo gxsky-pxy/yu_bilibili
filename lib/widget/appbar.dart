@@ -1,7 +1,7 @@
 //自定义顶部appbar
 import 'package:flutter/material.dart';
-import 'package:yu_bilibili/util/color.dart';
-import 'package:yu_bilibili/util/view_util.dart';
+import 'package:hi_base/color.dart';
+import 'package:hi_base/view_util.dart';
 
 appBar(String title, String rightTitle, VoidCallback? rightButtonClick) {
   return AppBar(

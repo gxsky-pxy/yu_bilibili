@@ -1,7 +1,8 @@
 //弹幕输入界面
 import 'package:flutter/material.dart';
-import 'package:yu_bilibili/util/color.dart';
-import 'package:yu_bilibili/util/view_util.dart';
+import 'package:hi_base/color.dart';
+import 'package:hi_base/view_util.dart';
+
 class BarrageInput extends StatelessWidget {
   final VoidCallback onTabClose;
   const BarrageInput({Key? key, required this.onTabClose}) : super(key: key);

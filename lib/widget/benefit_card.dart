@@ -1,9 +1,9 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yu_bilibili/model/profile_mo.dart';
 import 'package:yu_bilibili/util/toast.dart';
-import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_blur.dart';
 
 ///我的-增值服务

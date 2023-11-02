@@ -1,4 +1,4 @@
-import 'package:yu_bilibili/http/core/hi_net.dart';
+import 'package:hi_net/hi_net.dart';
 import 'package:yu_bilibili/http/request/profile_request.dart';
 import 'package:yu_bilibili/model/profile_mo.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hi_base/format_util.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:provider/provider.dart';
 import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/provider/theme_provider.dart';
-import 'package:yu_bilibili/util/format_util.dart';
-import 'package:yu_bilibili/util/view_util.dart';
 
 ///关联视频，视频列表卡片
 class VideoLargeCard extends StatelessWidget {

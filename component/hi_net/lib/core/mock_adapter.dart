@@ -1,10 +1,13 @@
 //测试适配器，mock数据
-import 'package:yu_bilibili/http/core/hi_adapter.dart';
-import 'package:yu_bilibili/http/request/base_request.dart';
+
+
+import 'package:hi_net/request/hi_base_request.dart';
+
+import 'hi_net_adapter.dart';
 
 class MockAdapter extends HiNetAdapter {
   @override
-  Future<HiNetResponse<T>> send<T>(BaseRequest request) {
+  Future<HiNetResponse<T>> send<T>(HiBaseRequest request) {
     return Future.delayed(Duration(milliseconds: 1000), () {
       return HiNetResponse(
           request: request,

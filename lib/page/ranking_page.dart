@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yu_bilibili/http/dao/ranking_dao.dart';
 import 'package:yu_bilibili/page/ranking_tab_page.dart';
 import 'package:yu_bilibili/provider/theme_provider.dart';
-import 'package:yu_bilibili/util/color.dart';
+import 'package:hi_base/color.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';

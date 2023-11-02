@@ -7,7 +7,7 @@ import 'package:yu_bilibili/model/video_model.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/page/video_detail_page.dart';
 import 'package:yu_bilibili/provider/theme_provider.dart';
-import 'package:yu_bilibili/util/color.dart';
+import 'package:hi_base/color.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
 import 'package:yu_bilibili/widget/video_large_card.dart';

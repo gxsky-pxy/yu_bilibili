@@ -2,20 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hi_net/core/hi_error.dart';
 import 'package:provider/provider.dart';
-import 'package:yu_bilibili/core/hi_state.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/home_dao.dart';
 import 'package:yu_bilibili/model/home_mo.dart';
 import 'package:yu_bilibili/navigator/hi_navigator.dart';
 import 'package:yu_bilibili/page/home_tab_page.dart';
 import 'package:yu_bilibili/provider/theme_provider.dart';
-import 'package:yu_bilibili/util/color.dart';
+import 'package:hi_base/color.dart';
 import 'package:yu_bilibili/util/toast.dart';
 import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/hi_tab.dart';
 import 'package:yu_bilibili/widget/loading_container.dart';
 import 'package:yu_bilibili/widget/navigation_bar.dart';
+import 'package:hi_base/hi_state.dart';
 
 class HomePage extends StatefulWidget {
   final ValueChanged<int>? onJumpTo;

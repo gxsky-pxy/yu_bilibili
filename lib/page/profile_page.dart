@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hi_base/view_util.dart';
 import 'package:provider/provider.dart';
-import 'package:yu_bilibili/http/core/hi_error.dart';
+import 'package:hi_net/core/hi_error.dart';
 import 'package:yu_bilibili/http/dao/profile_dao.dart';
 import 'package:yu_bilibili/model/profile_mo.dart';
 import 'package:yu_bilibili/provider/theme_provider.dart';
 import 'package:yu_bilibili/util/toast.dart';
-import 'package:yu_bilibili/util/view_util.dart';
 import 'package:yu_bilibili/widget/benefit_card.dart';
 import 'package:yu_bilibili/widget/course_card.dart';
 import 'package:yu_bilibili/widget/hi_banner.dart';
